@@ -6,15 +6,16 @@
   <title>TYPE FIGHTER</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>body { margin:0; background:#000; }</style>
-  <!-- React / ReactDOM (UMD) -->
+  <!-- ライブラリ（順番厳守） -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- Babel (JSXをブラウザで変換) -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 </head>
 <body>
+  <!-- ここにReactアプリを表示 -->
   <div id="root"></div>
 
+  <!-- あなたのコード（export削除済み） -->
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
@@ -51,7 +52,7 @@
         { text: 'いってきます', romaji: 'ITTEKIMASU' },
         { text: 'いってらっしゃい', romaji: 'ITTERASSYAI' },
         { text: 'おやすみなさい', romaji: 'OYASUMINASAI' },
-        { text: 'お誕生日おめでとう', romaji: 'OTANNJOUBIOMEDETOU' },
+        { text: 'お誕生日おめでとう', romaji: 'OTANNJYOUBIOMEDETOU' },
         { text: 'がんばって', romaji: 'GANNBATTE' },
         { text: 'お大事に', romaji: 'ODAIJINI' },
         { text: '失礼します', romaji: 'SITUREISIMASU' },
@@ -67,7 +68,7 @@
         { text: 'お久しぶりです', romaji: 'OHISASIBURIDESU' },
         { text: 'また会いましょう', romaji: 'MATAAIMASYOU' },
         { text: 'お気をつけて', romaji: 'OKIWOTUKETE' },
-        { text: 'ご無沙汰しております', romaji: 'GOBUSATASITEIORIMASU' },
+        { text: 'ご無沙汰しております', romaji: 'GOBUSATASITEORIMASU' },
         { text: '楽しみにしています', romaji: 'TANOSIMINISITEMASU' },
         { text: 'どうぞお入りください', romaji: 'DOUZOOHAIRIKUDASAI' },
         { text: 'かしこまりました', romaji: 'KASIKOMARIMASITA' },
@@ -84,7 +85,7 @@
         { text: 'お会計お願いします', romaji: 'OKAIKEIONEGAISIMASU' },
         { text: 'お時間ありますか', romaji: 'OJIKANARIMASUKA' },
         { text: 'もう一度お願いします', romaji: 'MOUITIDOONEGAISIMASU' },
-        { text: '少々お待ちください', romaji: 'SYOUSYOOOMATIKUDASAI' },
+        { text: '少々お待ちください', romaji: 'SYOUSYOUOMATIKUDASAI' },
         { text: '本当にありがとう', romaji: 'HONTOUNIARIGATOU' },
         { text: '大変申し訳ありません', romaji: 'TAIHENMOUSIWAKEARIMASENN' },
         { text: 'よくわかりません', romaji: 'YOKUWAKARIMASEN' },
@@ -110,7 +111,7 @@
         { text: '今後ともよろしくお願いします', romaji: 'KONGOTOMOYOROSIKUONEGAISIMASU' },
         { text: 'お世話になりました', romaji: 'OSEWANINARIMASITA' },
         { text: 'お世話になっております', romaji: 'OSEWANINATTEORIMASU' },
-        { text: 'お忙しいところすみません', romaji: 'OISOGASIITOKOROSUMIMASENN' },
+        { text: 'お忙しいところすみません', romaji: 'OISOGASIITOKOROSUMIMASEN' },
         { text: 'お時間をいただきありがとうございます', romaji: 'OJIKANWOITADAKIARIGATOUGOZAIMASU' },
         { text: 'ご都合はいかがですか', romaji: 'GOTUGOUHAIKAGADESUKA' },
         { text: 'ご検討よろしくお願いします', romaji: 'GOKENTOUYOROSIKUONEGAISIMASU' },
@@ -144,8 +145,8 @@
         }
       };
 
-      const playMenuSelectSound = () => playSound(880, 0.1);
-      const playTypeSound = () => playSound(1200, 0.05);
+      const playMenuSelectSound = () => { playSound(880, 0.1); };
+      const playTypeSound = () => { playSound(1200, 0.05); };
       const playDefeatSound = () => {
         playSound(440, 0.1);
         setTimeout(() => playSound(880, 0.1), 100);
@@ -175,6 +176,7 @@
             bgmOscillatorsRef.current.forEach(osc => { try { osc.stop(); } catch(e){} });
             bgmOscillatorsRef.current = [];
             const freq = melodyPattern[currentNoteIndex % melodyPattern.length];
+
             const osc1 = ctx.createOscillator();
             const gain1 = ctx.createGain();
             osc1.type = 'triangle';
@@ -184,6 +186,7 @@
             gain1.connect(ctx.destination);
             osc1.start();
             osc1.stop(ctx.currentTime + 0.4);
+
             const osc2 = ctx.createOscillator();
             const gain2 = ctx.createGain();
             osc2.type = 'sine';
@@ -193,21 +196,17 @@
             gain2.connect(ctx.destination);
             osc2.start();
             osc2.stop(ctx.currentTime + 0.4);
+
             bgmOscillatorsRef.current.push(osc1, osc2);
             currentNoteIndex++;
           };
           playBGMNote();
           bgmIntervalRef.current = setInterval(playBGMNote, 350);
-        } catch (e) {
-          console.log('BGM error:', e);
-        }
+        } catch (e) { console.log('BGM error:', e); }
       };
 
       const stopBGM = () => {
-        if (bgmIntervalRef.current) {
-          clearInterval(bgmIntervalRef.current);
-          bgmIntervalRef.current = null;
-        }
+        if (bgmIntervalRef.current) { clearInterval(bgmIntervalRef.current); bgmIntervalRef.current = null; }
         bgmOscillatorsRef.current.forEach(osc => { try { osc.stop(); } catch(e){} });
         bgmOscillatorsRef.current = [];
       };
@@ -260,10 +259,13 @@
       useEffect(() => {
         if (gameState === 'playing') {
           const startDelay = setTimeout(() => { startBGM(); }, 100);
+
           const canvas = canvasRef.current;
           const ctx = canvas.getContext('2d');
+
           const gameLoop = () => {
             gameTimeRef.current += 1;
+
             const spawnInterval = Math.max(300, 500 - stage * 20);
             if (gameTimeRef.current % spawnInterval === 0 && enemies.length === 0) {
               const availableSentences = getSentencesForStage(stage);
@@ -283,12 +285,14 @@
             setEnemies(prev => {
               const updated = prev.map(enemy => ({ ...enemy, y: enemy.y + enemy.speed }));
               const collision = updated.some(enemy => enemy.y > canvas.height - 50);
+
               if (collision) {
                 stopBGM();
                 playGameOverSound();
                 setGameState('gameover');
                 return [];
               }
+
               return updated.filter(enemy => enemy.y < canvas.height);
             });
 
@@ -327,6 +331,7 @@
               if (enemy.typed) {
                 drawDotText(ctx, enemy.typed, enemy.x - (enemy.word.length - enemy.typed.length) * 4, enemy.y - 30, 14, '#00ff00');
               }
+
               const remaining = enemy.word.substring(enemy.typed.length);
               drawDotText(ctx, remaining, enemy.x + enemy.typed.length * 4, enemy.y - 30, 14, '#ffffff');
             });
@@ -346,8 +351,12 @@
           gameLoop();
 
           return () => {
-            if (animationRef.current) cancelAnimationFrame(animationRef.current);
-            startDelay && clearTimeout(startDelay);
+            if (animationRef.current) {
+              cancelAnimationFrame(animationRef.current);
+            }
+            if (startDelay) {
+              clearTimeout(startDelay);
+            }
             stopBGM();
           };
         }
@@ -355,19 +364,24 @@
 
       const handleKeyPress = (e) => {
         if (gameState !== 'playing' || enemies.length === 0) return;
+
         const key = e.key.toUpperCase();
+
         if (key.length === 1 && key.match(/[A-Z]/)) {
           const enemy = enemies[0];
           const expectedChar = enemy.word[enemy.typed.length];
+
           if (expectedChar === key) {
             playTypeSound();
             const newTyped = enemy.typed + key;
+
             if (newTyped === enemy.word) {
               playDefeatSound();
               const newDefeatedCount = defeatedCount + 1;
               setDefeatedCount(newDefeatedCount);
               setScore(s => s + 200 + stage * 50);
               setEnemies([]);
+
               if (newDefeatedCount >= 10) {
                 setStage(s => s + 1);
                 setDefeatedCount(0);
@@ -415,25 +429,48 @@
                 ■ TYPE FIGHTER ■
               </h1>
               <div className="space-y-4">
-                <button onClick={() => startGame('normal')} className="block w-80 mx-auto px-8 py-4 text-xl font-bold border-4 border-green-500 bg-green-900 hover:bg-green-700 transition-colors" style={{fontFamily: 'monospace', textShadow: '2px 2px #000'}}>
+                <button
+                  onClick={() => startGame('normal')}
+                  className="block w-80 mx-auto px-8 py-4 text-xl font-bold border-4 border-green-500 bg-green-900 hover:bg-green-700 transition-colors"
+                  style={{fontFamily: 'monospace', textShadow: '2px 2px #000'}}
+                >
                   ► ノーマルモード
                 </button>
-                <button onClick={() => startGame('hard')} className="block w-80 mx-auto px-8 py-4 text-xl font-bold border-4 border-red-500 bg-red-900 hover:bg-red-700 transition-colors" style={{fontFamily: 'monospace', textShadow: '2px 2px #000'}}>
+                <button
+                  onClick={() => startGame('hard')}
+                  className="block w-80 mx-auto px-8 py-4 text-xl font-bold border-4 border-red-500 bg-red-900 hover:bg-red-700 transition-colors"
+                  style={{fontFamily: 'monospace', textShadow: '2px 2px #000'}}
+                >
                   ► ハードモード
                 </button>
               </div>
-              <div className="mt-8 text-sm text-cyan-400 max-w-md mx-auto border-2 border-cyan-800 p-4 bg-black" style={{fontFamily: 'monospace'}}>
-                <p>■ 遊び方 ■</p>
-                <p className="mt-2">文章をタイピングして撃墜</p>
-                <p>10機撃墜でステージアップ</p>
-                <p className="mt-3 text-green-400">ノーマル: ミスしてもOK</p>
-                <p className="text-red-400">ハード: ミスしたら即死</p>
-              </div>
-            </div>
+              <div className="mt-8 text-sm text-cyan-400 max-w-md mx-auto border-2 border-cyan-800 p-4 bg黒</div>
           </div>
         );
       }
 
       if (gameState === 'gameover') {
         return (
-          <div className="flex items-center justify中心</current-webpage>
+          <div className="flex items-center justify-center min-h-screen bg-black text白</div>
+        );
+      }
+
+      return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-900">
+          <canvas
+            ref={canvasRef}
+            width={700}
+            height={700}
+            className="border-4 border-cyan-500"
+            style={{imageRendering: 'pixelated'}}
+          />
+        </div>
+      );
+    };
+
+    // Reactアプリを画面へ表示
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<RetroTypingShooter />);
+  </script>
+</body>
+</html>
