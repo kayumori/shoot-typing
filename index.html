@@ -5,14 +5,11 @@
   <meta charset="utf-8">
   <title>TYPE FIGHTER</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Tailwindを使いたい場合はCDN版を後で追加可能。ただしBabel+React併用ではCSSだけCDNでOK -->
-  <style>
-    body { margin:0; background:#000; }
-  </style>
+  <style>body { margin:0; background:#000; }</style>
   <!-- React / ReactDOM (UMD) -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <!-- Babel: JSXをブラウザで変換（本番ではビルド推奨だが、Pagesの簡易配信ならこれで可） -->
+  <!-- Babel (JSXをブラウザで変換) -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 </head>
 <body>
@@ -439,24 +436,4 @@
 
       if (gameState === 'gameover') {
         return (
-          <div className="flex items-center justify-center min-h-screen bg-black text-white">
-            <div className="text-center space-y-8 p-8 border-4 border-red-500" style={{background: '#1a0000'}}>
-              <h1 className="text-6xl font-bold mb-4" style={{fontFamily: 'monospace', color: '#ff0000', textShadow: '4px 4px #440000'}}>
-                ■ GAME OVER ■
-              </h1>
-              <p className="text-4xl mb-4" style={{fontFamily: 'monospace', color: '#00ffff', textShadow: '3px 3px #004444'}}>
-                SCORE: {score}
-              </p>
-              <p className="text-3xl mb-8" style={{fontFamily: 'monospace', color: '#ffff00'}}>
-                STAGE: {stage}
-              </p>
-              <button onClick={backToMenu} className="px-8 py-4 text-xl font-bold border-4 border-cyan-500 bg-cyan-900 hover:bg-cyan-700 transition-colors" style={{fontFamily: 'monospace', textShadow: '2px 2px #000'}}>
-                ► メニューに戻る
-              </button>
-            </div>
-          </div>
-        );
-      }
-
-      return (
-        
+          <div className="flex items-center justify中心</current-webpage>
